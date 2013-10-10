@@ -5,12 +5,17 @@
 							};
   window.requestAnimationFrame = requestAnimationFrame;
 })();
+
 window.onload = function() {
-	var game = new Game(1000, 400);
+	var game = new Game();
 	var windowLoop = function() {
 		requestAnimationFrame(windowLoop);
 		game.loop();
 	};
+	var acceptInput = function(keyObj) {
+		game.keyInput(keyObj);
+	}
+	document.addEventListener("keydown",acceptInput,false);
 	windowLoop();
 }
 

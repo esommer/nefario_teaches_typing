@@ -1,11 +1,14 @@
-function Character (ctx, width, height, x, y, speedX, speedY) {
-	this.width =  width;
-	this.height = height;
-	this.x = x;
-	this.y = y;
-	this.speedX = speedX;
-	this.speedY = speedY;
-	this.ctx = ctx;
+function Character (canvas, ctx) { 
+	this.width =  30;
+	this.height = 60;
+	this.canvas = canvas;
+	this.ctx = canvas.getContext("2d");
+	this.canvasWidth = this.canvas.width;
+	this.canvasHeight = this.canvas.height;
+	this.x = 0;
+	this.y = this.canvasHeight - this.height;
+	this.speedX = 0;
+	this.speedY = 0;
 }
 
 Character.prototype.draw = function() {
@@ -22,7 +25,9 @@ Character.prototype.moveTo = function(x, y) {
 	this.y = y;
 }
 
-Character.prototype.move = function(directionX, directionY) {
+Character.prototype.move = function(directionX, directionY, speedX, speedY) {
+	this.speedX = speedX;
+	this.speedY = speedY;
 	var x = this.x + (this.speedX * directionX);
 	var y = this.y - (this.speedY * directionY);
 	this.moveTo(x, y);
