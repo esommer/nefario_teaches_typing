@@ -65,7 +65,6 @@ Game.prototype.checkCollisions = function() {
 	var characterLeft = Math.round(this.character.x + this.character.width);
 	var firstBlockRight = Math.floor(this.blocks[0].x);
 	if (characterLeft == firstBlockRight || Math.abs(firstBlockRight - characterLeft) < 1) {
-		console.log("POW!");
 		this.character.x = this.blocks[0].x - this.character.width;
 		this.character.speedX = this.blocks[0].speedX;
 		this.character.state = "blocked";
