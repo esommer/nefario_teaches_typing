@@ -45,18 +45,52 @@ Game.prototype.clearCanvas = function() {
 	this.ctx.fillRect(0, 0, this.width, this.height);
 }
 
+Game.prototype.keyInput = function(keyObj) {
+	this.countKeyPress ++;
+	var output = '';
+	if (keyObj.keyCode && this.keyDict[keyObj.keyCode]) {
+		output = this.keyDict[keyObj.keyCode].toLowerCase();
+	}
+	if (this.blocks.length > 0 && output == this.blocks[0].letter) { 
+		this.blocks.shift();
+		if (this.character.state == "blocked") {
+			this.character.unBlock();
+		}
+	} else {
+		this.errorCount ++;
+	}
+}
+
+Game.prototype.checkCollisions = function() {
+	var characterLeft = Math.round(this.character.x + this.character.width);
+	var firstBlockRight = Math.floor(this.blocks[0].x);
+	if (characterLeft == firstBlockRight || Math.abs(firstBlockRight - characterLeft) < 1) {
+		console.log("POW!");
+		this.character.x = this.blocks[0].x - this.character.width;
+		this.character.speedX = this.blocks[0].speedX;
+		this.character.state = "blocked";
+	}
+}
+
+
+
+
 Game.prototype.loop = function() {
 	this.frameCount ++;
 	this.clearCanvas();
+	
 	// check
+	if (this.blocks.length > 0) {
+		this.checkCollisions();
+	}
 
 	// update
 	if (this.frameCount % 120 == 0)  {
 		this.makeLetterBlock();
 	}
-	this.character.move(1,0,0.2,0);
+	this.character.move();
 	for (i = 0; i < this.blocks.length; i++){
-		this.blocks[i].move(-1,0,0.4,0);
+		this.blocks[i].move();
 	}
 
 	// draw
@@ -65,22 +99,5 @@ Game.prototype.loop = function() {
 		this.blocks[i].draw();
 	}
 }
-
-Game.prototype.keyInput = function(keyObj) {
-	this.countKeyPress ++;
-	var output = '';
-	if (keyObj.keyCode) {
-		console.log(this.keyDict[76]);
-		output = this.keyDict[keyObj.keyCode].toLowerCase();
-	}
-	if (output == this.blocks[0].letter) { 
-		this.blocks.shift();
-	} else {
-		this.errorCount ++;
-	}
-}
-
-
-
 
 

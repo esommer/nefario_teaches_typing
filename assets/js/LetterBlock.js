@@ -9,10 +9,10 @@ function LetterBlock (canvas, letter, type) {
 	this.canvasHeight = this.canvas.height;
 	this.x = this.canvasWidth;
 	this.y = this.type == "low"? this.canvasHeight - this.height: this.canvasHeight - this.height - 100;
-	this.speedX = 0;
+	this.speedX = -0.7;
 	this.speedY = 0;
 }
-
+ 
 LetterBlock.prototype.draw = function() {
 	this.ctx.save();
 	this.ctx.beginPath();
@@ -31,10 +31,12 @@ LetterBlock.prototype.moveTo = function(x, y) {
 	this.y = y;
 }
 
-LetterBlock.prototype.move = function(directionX, directionY, speedX, speedY) {
-	this.speedX = speedX;
-	this.speedY = speedY;
-	var x = this.x + (this.speedX * directionX);
-	var y = this.y - (this.speedY * directionY);
+LetterBlock.prototype.move = function(speedX, speedY) {
+	if (speedX && speedY) {
+		this.speedX = speedX;
+		this.speedY = speedY;
+	}
+	var x = this.x + this.speedX;
+	var y = this.y - this.speedY;
 	this.moveTo(x, y);
 }
