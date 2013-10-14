@@ -12,6 +12,7 @@ function Character (canvas, ctx) {
 	this.speedX = this.defaultSpeedX;
 	this.speedY = this.defaultSpeedY;
 	this.state = "normal";
+	this.cyclesPerFrame = 4;
 	this.moveCycles = 0;
 	this.currentFrame = 0;
 
@@ -54,7 +55,7 @@ Character.prototype.move = function(speedX,speedY) {
 	var x = this.x + this.speedX;
 	var y = this.y - this.speedY;
 	this.moveTo(x, y);
-	this.currentFrame = this.moveCycles%this.frames.length;
+	this.currentFrame = Math.floor((this.moveCycles/this.cyclesPerFrame)%this.frames.length);
 	this.moveCycles ++;
 }
 
