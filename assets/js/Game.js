@@ -18,8 +18,11 @@ function Game () {
 	this.keyDict = {
 		65:"A", 66:"B", 67:"C",	68:"D",	69:"E",	70:"F",	71:"G",	72:"H",	73:"I",	74:"J",	75:"K",	76:"L",	77:"M",	78:"N",	79:"O",	80:"P",	81:"Q",	82:"R",	83:"S",	84:"T",	85:"U",	86:"V",	87:"W",	88:"X",	89:"Y",	90:"Z", 186:";"
 	};
+	this.timerDiv = "";
 
 	this.createCanvas();
+	this.initiateTimer();
+	this.timer = new Timer();
 	this.character = new Character(this.canvas, this.ctx);
 }
 
@@ -30,6 +33,12 @@ Game.prototype.createCanvas = function() {
 	this.ctx = this.canvas.getContext("2d");
 
 	document.body.appendChild(this.canvas);
+}
+
+Game.prototype.initiateTimer = function() {
+	this.timerDiv = document.createElement("div");
+	this.timerDiv.setAttribute("id", "timer");
+	document.body.appendChild(this.timerDiv);
 }
 
 Game.prototype.makeLetterBlock = function() {
@@ -64,7 +73,7 @@ Game.prototype.keyInput = function(keyObj) {
 Game.prototype.checkCollisions = function() {
 	var characterLeft = Math.round(this.character.x + this.character.width);
 	var firstBlockRight = Math.floor(this.blocks[0].x);
-	if (characterLeft == firstBlockRight || Math.abs(firstBlockRight - characterLeft) < 1) {
+	if (characterLeft == firstBlockRight || Math.abs(firstBlockRight - characterLeft) < 2) {
 		this.character.x = this.blocks[0].x - this.character.width;
 		this.character.speedX = this.blocks[0].speedX;
 		this.character.state = "blocked";
@@ -84,6 +93,7 @@ Game.prototype.loop = function() {
 	}
 
 	// update
+	this.timer.update();
 	if (this.frameCount % 120 == 0)  {
 		this.makeLetterBlock();
 	}
@@ -93,10 +103,9 @@ Game.prototype.loop = function() {
 	}
 
 	// draw
+	this.timer.draw(this.timerDiv);
 	this.character.draw();
 	for(i = 0; i < this.blocks.length; i++) {
 		this.blocks[i].draw();
 	}
 }
-
-

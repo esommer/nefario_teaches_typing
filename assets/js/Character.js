@@ -39,7 +39,6 @@ Character.prototype.draw = function() {
 	this.ctx.fillRect(this.x, this.y, this.width, this.height);
 	this.ctx.drawImage(this.frames[this.currentFrame], this.x-5, this.y);
 	this.ctx.restore();
-	console.log(this.frames[this.currentFrame]);
 };
 
 Character.prototype.moveTo = function(x, y) {
