@@ -2,6 +2,8 @@ function Timer() {
 	this.start = Date.now();
 	this.elapsed = 0;
 	this.display = "";
+	this.referenceTime = this.start;
+	this.pausedTime = 0;
 }
 
 Timer.prototype.update = function() {
@@ -14,7 +16,7 @@ Timer.prototype.update = function() {
 			return number;
 		}
 	}
-	this.elapsed = Date.now() - this.start;
+	this.elapsed = Date.now() - this.referenceTime + this.pausedTime;
 	var hours = padNumber((Math.floor(this.elapsed/3600000))%24);
 	var mins = padNumber((Math.floor(this.elapsed/60000))%60);
 	var secs = padNumber((Math.floor(this.elapsed/1000))%60); 

@@ -16,9 +16,11 @@ function Game () {
 	this.blocks = [];
 	this.frameCount = 0;
 	this.keyDict = {
-		65:"A", 66:"B", 67:"C",	68:"D",	69:"E",	70:"F",	71:"G",	72:"H",	73:"I",	74:"J",	75:"K",	76:"L",	77:"M",	78:"N",	79:"O",	80:"P",	81:"Q",	82:"R",	83:"S",	84:"T",	85:"U",	86:"V",	87:"W",	88:"X",	89:"Y",	90:"Z", 186:";"
+		27:"esc", 65:"A", 66:"B", 67:"C",	68:"D",	69:"E",	70:"F",	71:"G",	72:"H",	73:"I",	74:"J",	75:"K",	76:"L",	77:"M",	78:"N",	79:"O",	80:"P",	81:"Q",	82:"R",	83:"S",	84:"T",	85:"U",	86:"V",	87:"W",	88:"X",	89:"Y",	90:"Z", 186:";"
 	};
 	this.timerDiv = "";
+	this.state = "running";
+	this.pausePoint = 0;
 
 	this.createCanvas();
 	this.initiateTimer();
@@ -55,18 +57,24 @@ Game.prototype.clearCanvas = function() {
 }
 
 Game.prototype.keyInput = function(keyObj) {
-	this.countKeyPress ++;
-	var output = '';
-	if (keyObj.keyCode && this.keyDict[keyObj.keyCode]) {
-		output = this.keyDict[keyObj.keyCode].toLowerCase();
+	// check pause button (escape key)
+	if (keyObj.keyCode && this.keyDict[keyObj.keyCode] == "esc") {
+		this.state == "running"? this.pause(): this.resume();
 	}
-	if (this.blocks.length > 0 && output == this.blocks[0].letter) { 
-		this.blocks.shift();
-		if (this.character.state == "blocked") {
-			this.character.unBlock();
+	else {
+		this.countKeyPress ++;
+		var output = '';
+		if (keyObj.keyCode && this.keyDict[keyObj.keyCode]) {
+			output = this.keyDict[keyObj.keyCode].toLowerCase();
 		}
-	} else {
-		this.errorCount ++;
+		if (this.blocks.length > 0 && output == this.blocks[0].letter) { 
+			this.blocks.shift();
+			if (this.character.state == "blocked") {
+				this.character.unBlock();
+			}
+		} else {
+			this.errorCount ++;
+		}
 	}
 }
 
@@ -80,7 +88,15 @@ Game.prototype.checkCollisions = function() {
 	}
 }
 
+Game.prototype.pause = function () {
+	this.state = "paused";
+	this.timer.pausedTime = this.timer.elapsed;
+}
 
+Game.prototype.resume = function () {
+	this.state = "running";
+	this.timer.referenceTime = Date.now();
+}
 
 
 Game.prototype.loop = function() {
@@ -92,15 +108,18 @@ Game.prototype.loop = function() {
 		this.checkCollisions();
 	}
 
-	// update
-	this.timer.update();
-	if (this.frameCount % 120 == 0)  {
-		this.makeLetterBlock();
+	if (this.state == "running") {
+		// update
+		this.timer.update();
+		if (this.frameCount % 120 == 0)  {
+			this.makeLetterBlock();
+		}
+		this.character.move();
+		for (i = 0; i < this.blocks.length; i++){
+			this.blocks[i].move();
+		}
 	}
-	this.character.move();
-	for (i = 0; i < this.blocks.length; i++){
-		this.blocks[i].move();
-	}
+	
 
 	// draw
 	this.timer.draw(this.timerDiv);
