@@ -16,14 +16,17 @@ function Game () {
 	this.blocks = [];
 	this.frameCount = 0;
 	this.keyDict = {
-		27:"esc", 65:"A", 66:"B", 67:"C",	68:"D",	69:"E",	70:"F",	71:"G",	72:"H",	73:"I",	74:"J",	75:"K",	76:"L",	77:"M",	78:"N",	79:"O",	80:"P",	81:"Q",	82:"R",	83:"S",	84:"T",	85:"U",	86:"V",	87:"W",	88:"X",	89:"Y",	90:"Z", 186:";"
+		27:"esc", 65:"a", 66:"b", 67:"c", 68:"d", 69:"e", 70:"f", 71:"g", 72:"h", 73:"i", 74:"j", 75:"k", 76:"l", 77:"m", 78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 85:"u", 86:"v", 87:"w", 88:"x", 89:"y", 90:"z", 186:";"
 	};
 	this.timerDiv = "";
 	this.state = "running";
-	this.pausePoint = 0;
+	this.score = 0;
+	this.livesDiv = "";
+	this.scoreDiv = "";
 
 	this.createCanvas();
 	this.initiateTimer();
+	this.initiateTallies();
 	this.timer = new Timer();
 	this.character = new Character(this.canvas, this.ctx);
 }
@@ -43,6 +46,17 @@ Game.prototype.initiateTimer = function() {
 	document.body.appendChild(this.timerDiv);
 }
 
+Game.prototype.initiateTallies = function () {
+	// build score div
+	this.scoreDiv = document.createElement("div");
+	this.scoreDiv.setAttribute("id", "scorediv");
+	document.body.appendChild(this.scoreDiv);
+	// build lives div
+	this.livesDiv = document.createElement("div");
+	this.livesDiv.setAttribute("id", "livesdiv");
+	document.body.appendChild(this.livesDiv);	
+}
+
 Game.prototype.makeLetterBlock = function() {
 	var letterType = Math.floor(Math.random()*2);
 	var randIndex = Math.floor(Math.random()*this.levels[this.currentLevel].length);
@@ -57,7 +71,7 @@ Game.prototype.clearCanvas = function() {
 }
 
 Game.prototype.keyInput = function(keyObj) {
-	// check pause button (escape key)
+	// check for pause/resume button (escape key)
 	if (keyObj.keyCode && this.keyDict[keyObj.keyCode] == "esc") {
 		this.state == "running"? this.pause(): this.resume();
 	}
@@ -65,17 +79,30 @@ Game.prototype.keyInput = function(keyObj) {
 		this.countKeyPress ++;
 		var output = '';
 		if (keyObj.keyCode && this.keyDict[keyObj.keyCode]) {
-			output = this.keyDict[keyObj.keyCode].toLowerCase();
+			output = this.keyDict[keyObj.keyCode];
 		}
-		if (this.blocks.length > 0 && output == this.blocks[0].letter) { 
-			this.blocks.shift();
-			if (this.character.state == "blocked") {
-				this.character.unBlock();
-			}
+		if (this.blocks.length > 0 && output == this.blocks[0].letter) {
+			this.correctKey();
 		} else {
-			this.errorCount ++;
+			this.wrongKey();
 		}
 	}
+}
+
+Game.prototype.wrongKey = function () {
+	this.errorCount ++;
+	this.character.lives --;
+	if (this.character.lives <= 0) {
+		this.endDie();
+	}
+}
+
+Game.prototype.correctKey = function() {
+	this.blocks.shift();
+	if (this.character.state == "blocked") {
+		this.character.unBlock();
+	}
+	this.score ++;
 }
 
 Game.prototype.checkCollisions = function() {
@@ -88,6 +115,11 @@ Game.prototype.checkCollisions = function() {
 	}
 }
 
+Game.prototype.drawTallies = function () {
+	this.scoreDiv.innerHTML = this.score;
+	this.livesDiv.innerHTML = this.character.lives;
+}
+
 Game.prototype.pause = function () {
 	this.state = "paused";
 	this.timer.pausedTime = this.timer.elapsed;
@@ -98,8 +130,16 @@ Game.prototype.resume = function () {
 	this.timer.referenceTime = Date.now();
 }
 
+Game.prototype.endDie = function () {
+	this.pause();
+	console.log(" --- dead --- ");
+}
 
-Game.prototype.loop = function() {
+Game.prototype.setLevel = function (level) {
+	//set level defaults (speeds, starting lives, letter set, etc.)
+}
+
+Game.prototype.loop = function () {
 	this.frameCount ++;
 	this.clearCanvas();
 	
@@ -123,6 +163,7 @@ Game.prototype.loop = function() {
 
 	// draw
 	this.timer.draw(this.timerDiv);
+	this.drawTallies();
 	this.character.draw();
 	for(i = 0; i < this.blocks.length; i++) {
 		this.blocks[i].draw();

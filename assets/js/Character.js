@@ -15,6 +15,7 @@ function Character (canvas, ctx) {
 	this.cyclesPerFrame = 4;
 	this.moveCycles = 0;
 	this.currentFrame = 0;
+	this.lives = 10;
 
 	this.frames = [];
 	this.buildFrames();
