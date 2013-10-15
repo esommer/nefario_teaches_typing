@@ -1,4 +1,7 @@
 function Game () {
+	this.options = {
+
+	}
 	this.canvas = null;
 	this.ctx = null;
 	this.width = 1000;
@@ -8,11 +11,11 @@ function Game () {
 	this.countMistake = 0;
 	this.startTime = 0;
 	this.character = null;
-	this.levels = {
-		1: ["a","s","d","f","j","k","l",";"],
-		2: []
-	}
-	this.currentLevel = 1;
+	// this.levels = {
+	// 	1: ["a","s","d","f","j","k","l",";"],
+	// 	2: []
+	// }
+	this.currentLevel = window.levels[1];
 	this.blocks = [];
 	this.frameCount = 0;
 	this.keyDict = {
@@ -24,6 +27,7 @@ function Game () {
 	this.livesDiv = "";
 	this.scoreDiv = "";
 
+	this.keyboard = new Keyboard(document.getElementById("keyboard"));
 	this.createCanvas();
 	this.initiateTimer();
 	this.initiateTallies();
@@ -59,8 +63,8 @@ Game.prototype.initiateTallies = function () {
 
 Game.prototype.makeLetterBlock = function() {
 	var letterType = Math.floor(Math.random()*2);
-	var randIndex = Math.floor(Math.random()*this.levels[this.currentLevel].length);
-	var letter = this.levels[this.currentLevel][randIndex];
+	var randIndex = Math.floor(Math.random()*this.currentLevel.contents.length);
+	var letter = this.currentLevel.contents[randIndex];
 	var block = new LetterBlock(this.canvas, letter, letterType);
 	this.blocks.push(block);
 }
@@ -151,7 +155,7 @@ Game.prototype.loop = function () {
 	if (this.state == "running") {
 		// update
 		this.timer.update();
-		if (this.frameCount % 120 == 0)  {
+		if (this.frameCount % this.currentLevel.blockFrequency == 0)  {
 			this.makeLetterBlock();
 		}
 		this.character.move();

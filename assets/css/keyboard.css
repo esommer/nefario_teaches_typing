@@ -1,0 +1,11 @@
+ul#keyboard {
+	width: 16.5em;
+}
+ul#keyboard li {
+	display: inline-block;
+	height: 1.5em;
+	width: 1.5em;
+	border: 1px solid #ccc;
+	text-align: center;
+	line-height: 1.5em;
+}
