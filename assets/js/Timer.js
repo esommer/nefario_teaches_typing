@@ -1,4 +1,5 @@
-function Timer() {
+function Timer(timerDiv) {
+	this.div = timerDiv;
 	this.start = Date.now();
 	this.elapsed = 0;
 	this.display = "";
@@ -23,6 +24,6 @@ Timer.prototype.update = function() {
 	this.display = hours + ":" + mins + ":" + secs;
 }
 
-Timer.prototype.draw = function(timerHTML) {
-	timerHTML.innerHTML = this.display;
+Timer.prototype.draw = function() {
+	this.div.innerHTML = this.display;
 }

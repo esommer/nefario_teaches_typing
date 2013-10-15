@@ -1,4 +1,4 @@
-function LetterBlock (canvas, letter, type) {
+function LetterBlock (canvas, letter, type, initialSpeedX, initialSpeedY) {
 	this.letter = letter;
 	this.type = (type == 1)? "low": "high";
 	this.width = 30;
@@ -9,8 +9,8 @@ function LetterBlock (canvas, letter, type) {
 	this.canvasHeight = this.canvas.height;
 	this.x = this.canvasWidth;
 	this.y = this.type == "low"? this.canvasHeight - this.height: this.canvasHeight - this.height - 100;
-	this.speedX = -0.7;
-	this.speedY = 0;
+	this.speedX = initialSpeedX;
+	this.speedY = initialSpeedY;
 }
  
 LetterBlock.prototype.draw = function() {

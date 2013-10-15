@@ -1,16 +1,16 @@
-function Character (canvas, ctx) { 
+function Character (canvas, ctx, initialSpeedX, initialSpeedY) { 
 	this.width =  30;
 	this.height = 60;
-	this.defaultSpeedX = 1;
-	this.defaultSpeedY = 0;
 	this.canvas = canvas;
+	this.initialSpeedX = initialSpeedX;
+	this.initialSpeedY = initialSpeedY;
 	this.ctx = canvas.getContext("2d");
 	this.canvasWidth = this.canvas.width;
 	this.canvasHeight = this.canvas.height;
 	this.x = 0;
 	this.y = this.canvasHeight - this.height;
-	this.speedX = this.defaultSpeedX;
-	this.speedY = this.defaultSpeedY;
+	this.speedX = initialSpeedX;
+	this.speedY = initialSpeedY;
 	this.state = "normal";
 	this.cyclesPerFrame = 4;
 	this.moveCycles = 0;
@@ -61,5 +61,5 @@ Character.prototype.move = function(speedX,speedY) {
 }
 
 Character.prototype.unBlock = function () {
-	this.speedX = this.defaultSpeedX;
+	this.speedX = this.initialSpeedX;
 }

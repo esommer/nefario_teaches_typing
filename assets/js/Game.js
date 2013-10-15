@@ -1,71 +1,33 @@
-function Game () {
-	this.options = {
-
-	}
-	this.canvas = null;
-	this.ctx = null;
-	this.width = 1000;
-	this.height = 400;
+function Game (dict) {
+	this.canvas = document.getElementById("canvas");
+	this.ctx = this.canvas.getContext("2d");
+	this.width = this.canvas.width;
+	this.height = this.canvas.height;
 	this.score = 0;
 	this.countKeyPress = 0;
 	this.countMistake = 0;
 	this.startTime = 0;
-	this.character = null;
-	// this.levels = {
-	// 	1: ["a","s","d","f","j","k","l",";"],
-	// 	2: []
-	// }
 	this.currentLevel = window.levels[1];
 	this.blocks = [];
 	this.frameCount = 0;
-	this.keyDict = {
-		27:"esc", 65:"a", 66:"b", 67:"c", 68:"d", 69:"e", 70:"f", 71:"g", 72:"h", 73:"i", 74:"j", 75:"k", 76:"l", 77:"m", 78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 85:"u", 86:"v", 87:"w", 88:"x", 89:"y", 90:"z", 186:";"
-	};
-	this.timerDiv = "";
+	this.keyDict = dict;
+	this.playerSpeed = 0;
+	this.keysPerMin = 0;
+
 	this.state = "running";
-	this.score = 0;
-	this.livesDiv = "";
-	this.scoreDiv = "";
-
+	this.keysDiv = document.getElementById("keyspeed");
+	this.livesDiv = document.getElementById("lives");
+	this.scoreDiv = document.getElementById("score");
 	this.keyboard = new Keyboard(document.getElementById("keyboard"));
-	this.createCanvas();
-	this.initiateTimer();
-	this.initiateTallies();
-	this.timer = new Timer();
-	this.character = new Character(this.canvas, this.ctx);
-}
-
-Game.prototype.createCanvas = function() {
-	this.canvas = document.createElement("canvas");
-	this.canvas.width = this.width;
-	this.canvas.height = this.height;
-	this.ctx = this.canvas.getContext("2d");
-
-	document.body.appendChild(this.canvas);
-}
-
-Game.prototype.initiateTimer = function() {
-	this.timerDiv = document.createElement("div");
-	this.timerDiv.setAttribute("id", "timer");
-	document.body.appendChild(this.timerDiv);
-}
-
-Game.prototype.initiateTallies = function () {
-	// build score div
-	this.scoreDiv = document.createElement("div");
-	this.scoreDiv.setAttribute("id", "scorediv");
-	document.body.appendChild(this.scoreDiv);
-	// build lives div
-	this.livesDiv = document.createElement("div");
-	this.livesDiv.setAttribute("id", "livesdiv");
-	document.body.appendChild(this.livesDiv);	
+	this.timer = new Timer(document.getElementById("timer"));
+	this.character = new Character(this.canvas, this.ctx, this.currentLevel.characterSpeedX, this.currentLevel.characterSpeedY);
 }
 
 Game.prototype.makeLetterBlock = function() {
 	var letterType = Math.floor(Math.random()*2);
 	var randIndex = Math.floor(Math.random()*this.currentLevel.contents.length);
 	var letter = this.currentLevel.contents[randIndex];
-	var block = new LetterBlock(this.canvas, letter, letterType);
+	var block = new LetterBlock(this.canvas, letter, letterType, this.currentLevel.keySpeedX, this.currentLevel.keySpeedY);
 	this.blocks.push(block);
 }
 
@@ -81,6 +43,7 @@ Game.prototype.keyInput = function(keyObj) {
 	}
 	else {
 		this.countKeyPress ++;
+		this.keysPerMin = this.countKeyPress / this.timer.elapsed;
 		var output = '';
 		if (keyObj.keyCode && this.keyDict[keyObj.keyCode]) {
 			output = this.keyDict[keyObj.keyCode];
@@ -117,11 +80,15 @@ Game.prototype.checkCollisions = function() {
 		this.character.speedX = this.blocks[0].speedX;
 		this.character.state = "blocked";
 	}
+	if (this.character.x >= this.width) {
+		this.pause();
+	}
 }
 
 Game.prototype.drawTallies = function () {
 	this.scoreDiv.innerHTML = this.score;
 	this.livesDiv.innerHTML = this.character.lives;
+	this.keysDiv.innerHTML = this.keysPerMin;
 }
 
 Game.prototype.pause = function () {
@@ -166,7 +133,7 @@ Game.prototype.loop = function () {
 	
 
 	// draw
-	this.timer.draw(this.timerDiv);
+	this.timer.draw();
 	this.drawTallies();
 	this.character.draw();
 	for(i = 0; i < this.blocks.length; i++) {

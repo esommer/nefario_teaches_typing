@@ -13,7 +13,7 @@ QWERTYDICT = {
 
 
 window.onload = function() {
-	var game = new Game();
+	var game = new Game(QWERTYDICT);
 	var windowLoop = function() {
 		requestAnimationFrame(windowLoop);
 		game.loop();
