@@ -24,6 +24,8 @@
     87:"w", 88:"x", 89:"y", 90:"z", 186:";"
   };
 
+  // worth putting input stuff into its own module
+
   Game.prototype.keyInput = function(keyObj) {
 	  // check for pause/resume button (escape key)
 	  if (keyObj.keyCode && Game.keys[keyObj.keyCode] == "esc") {
