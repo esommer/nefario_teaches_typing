@@ -15,9 +15,6 @@
 	  this.currentLevel = window.levels[1];
 	  this.blocks = [];
 	  this.frameCount = 0;
-	  this.keyDict = {
-		  27:"esc", 65:"a", 66:"b", 67:"c", 68:"d", 69:"e", 70:"f", 71:"g", 72:"h", 73:"i", 74:"j", 75:"k", 76:"l", 77:"m", 78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 85:"u", 86:"v", 87:"w", 88:"x", 89:"y", 90:"z", 186:";"
-	  };
 	  this.timerDiv = "";
 	  this.state = "running";
 	  this.score = 0;
@@ -31,6 +28,13 @@
 	  this.timer = new Timer();
 	  this.character = new Character(this.canvas, this.ctx);
   }
+
+  Game.keys = {
+	  0 : "~", 1 : "1", 2 : "2", "27":"esc", 65:"a", 66:"b", 67:"c", 68:"d",
+    69:"e", 70:"f", 71:"g", 72:"h", 73:"i", 74:"j", 75:"k", 76:"l", 77:"m",
+    78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 85:"u", 86:"v",
+    87:"w", 88:"x", 89:"y", 90:"z", 186:";"
+  };
 
   Game.prototype.createCanvas = function() {
 	  this.canvas = document.createElement("canvas");
@@ -73,14 +77,14 @@
 
   Game.prototype.keyInput = function(keyObj) {
 	  // check for pause/resume button (escape key)
-	  if (keyObj.keyCode && this.keyDict[keyObj.keyCode] == "esc") {
+	  if (keyObj.keyCode && Game.keys[keyObj.keyCode] == "esc") {
 		  this.state == "running"? this.pause(): this.resume();
 	  }
 	  else {
 		  this.countKeyPress ++;
 		  var output = '';
-		  if (keyObj.keyCode && this.keyDict[keyObj.keyCode]) {
-			  output = this.keyDict[keyObj.keyCode];
+		  if (keyObj.keyCode && Game.keys[keyObj.keyCode]) {
+			  output = Game.keys[keyObj.keyCode];
 		  }
 		  if (this.blocks.length > 0 && output == this.blocks[0].letter) {
 			  this.correctKey();
