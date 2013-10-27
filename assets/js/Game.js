@@ -31,7 +31,6 @@
   };
 
   var setupCanvas = function(canvasId, width, height) {
-    console.log(canvasId)
 	  var canvas = document.getElementById(canvasId);
 	  canvas.width = width;
 	  canvas.height = height;
