@@ -1,8 +1,5 @@
 ;(function(exports) {
   function Game () {
-	  this.options = {
-
-	  }
 	  this.canvas = null;
 	  this.ctx = null;
 	  this.width = 1000;
