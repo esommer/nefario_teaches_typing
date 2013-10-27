@@ -35,7 +35,7 @@
 	  this.ctx.restore();
   };
 
-  Character.prototype.moveTo = function(x, y) {
+  Character.prototype.setPosition = function(x, y) {
 	  this.x = x;
 	  this.y = y;
   }
@@ -47,7 +47,7 @@
 	  }
 	  var x = this.x + this.speedX;
 	  var y = this.y - this.speedY;
-	  this.moveTo(x, y);
+	  this.setPosition(x, y);
 	  this.currentFrame = Math.floor((this.moveCycles/this.cyclesPerFrame)%this.frames.length);
 	  this.moveCycles ++;
   }
