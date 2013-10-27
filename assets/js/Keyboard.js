@@ -18,10 +18,6 @@
 	  }
   }
 
-  Keyboard.prototype.setExpectedKeys = function () {
-
-  }
-
   function Key (letter) {
 	  this.letter = letter;
 	  this.contents = document.createElement("li");
