@@ -52,9 +52,7 @@
 
   Game.prototype.correctKey = function() {
 	  this.blocks.shift();
-	  if (this.character.state == "blocked") {
-		  this.character.unBlock();
-	  }
+		this.character.unBlock();
 	  this.scoreboard.score++;
   }
 
@@ -66,7 +64,7 @@
 	  if (characterLeft == firstBlockRight || Math.abs(firstBlockRight - characterLeft) < 2) {
 		  this.character.x = this.blocks[0].x - this.character.width;
 		  this.character.speedX = this.blocks[0].speedX;
-		  this.character.state = "blocked";
+		  this.character.block();
 	  }
   }
 

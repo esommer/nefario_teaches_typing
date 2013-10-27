@@ -6,13 +6,23 @@
 	  this.ctx = ctx;
 	  this.x = 0;
 	  this.y = gameHeight - this.height;
-	  this.speedX = this.defaultSpeedX;
-	  this.state = "normal";
 	  this.cyclesPerFrame = 4;
 	  this.moveCycles = 0;
 	  this.currentFrame = 0;
 
 	  this.frames = buildFrames();
+
+    var blocked, speedX;
+    this.block = function () {
+	    blocked = true;
+    };
+
+    this.unBlock = function () {
+      this.speedX = this.defaultSpeedX;
+      blocked = false;
+    };
+
+    this.unBlock();
   }
 
   var buildFrames = function() {
@@ -38,15 +48,11 @@
 	  this.y = y;
   }
 
-  Character.prototype.move = function() {
+  Character.prototype.move = function( ) {
 	  var x = this.x + this.speedX;
 	  this.setPosition(x, this.y);
 	  this.currentFrame = Math.floor((this.moveCycles/this.cyclesPerFrame)%this.frames.length);
 	  this.moveCycles ++;
-  }
-
-  Character.prototype.unBlock = function () {
-	  this.speedX = this.defaultSpeedX;
   }
 
   exports.Character = Character;
