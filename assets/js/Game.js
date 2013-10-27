@@ -12,10 +12,6 @@
 	  this.countMistake = 0;
 	  this.startTime = 0;
 	  this.character = null;
-	  // this.levels = {
-	  // 	1: ["a","s","d","f","j","k","l",";"],
-	  // 	2: []
-	  // }
 	  this.currentLevel = window.levels[1];
 	  this.blocks = [];
 	  this.frameCount = 0;
