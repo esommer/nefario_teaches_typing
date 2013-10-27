@@ -3,7 +3,6 @@
 	  this.ctx = drawing.setupCanvas(canvasId, width, height);
 	  this.width = width;
 	  this.height = height;
-	  this.score = 0;
 	  this.countKeyPress = 0;
 	  this.countMistake = 0;
 	  this.startTime = 0;
@@ -11,11 +10,9 @@
 	  this.blocks = [];
 	  this.frameCount = 0;
 	  this.state = "running";
-	  this.livesDiv = "";
-	  this.scoreDiv = "";
 
+    this.scoreboard = new Scoreboard(document);
 	  this.keyboard = new Keyboard(document, document.getElementById("keyboard"));
-	  this.initiateTallies();
 	  this.timer = new Timer(document);
 	  this.character = new Character(this.ctx, width, height);
   }
@@ -26,17 +23,6 @@
     78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 85:"u", 86:"v",
     87:"w", 88:"x", 89:"y", 90:"z", 186:";"
   };
-
-  Game.prototype.initiateTallies = function () {
-	  // build score div
-	  this.scoreDiv = document.createElement("div");
-	  this.scoreDiv.setAttribute("id", "scorediv");
-	  document.body.appendChild(this.scoreDiv);
-	  // build lives div
-	  this.livesDiv = document.createElement("div");
-	  this.livesDiv.setAttribute("id", "livesdiv");
-	  document.body.appendChild(this.livesDiv);
-  }
 
   Game.prototype.keyInput = function(keyObj) {
 	  // check for pause/resume button (escape key)
@@ -58,8 +44,8 @@
 
   Game.prototype.wrongKey = function () {
 	  this.errorCount ++;
-	  this.character.lives --;
-	  if (this.character.lives <= 0) {
+	  this.scoreboard.lives --;
+	  if (this.scoreboard.lives <= 0) {
 		  this.endDie();
 	  }
   }
@@ -69,7 +55,7 @@
 	  if (this.character.state == "blocked") {
 		  this.character.unBlock();
 	  }
-	  this.score ++;
+	  this.scoreboard.score++;
   }
 
   Game.prototype.checkCollisions = function() {
@@ -84,10 +70,6 @@
 	  }
   }
 
-  Game.prototype.drawTallies = function () {
-	  this.scoreDiv.innerHTML = this.score;
-	  this.livesDiv.innerHTML = this.character.lives;
-  }
 
   Game.prototype.pause = function () {
 	  this.state = "paused";
@@ -128,7 +110,7 @@
   Game.prototype.draw = function() {
 	  drawing.clearCanvas(this.ctx, this.width, this.height);
 	  this.timer.draw();
-	  this.drawTallies();
+	  this.scoreboard.draw();
 	  this.character.draw();
 	  for(i = 0; i < this.blocks.length; i++) {
 		  this.blocks[i].draw();
