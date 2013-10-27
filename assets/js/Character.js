@@ -19,15 +19,11 @@
   }
 
   Character.prototype.buildFrames  = function() {
-	  var frameOne = new Image();
-	  frameOne.src = "assets/img/one.png";
-	  var frameTwo = new Image();
-	  frameTwo.src = "assets/img/two.png";
-	  var frameThree = new Image();
-	  frameThree.src = "assets/img/three.png";
-	  var frameFour = new Image();
-	  frameFour.src = "assets/img/four.png";
-	  this.frames = [frameOne, frameTwo, frameThree, frameFour];
+    this.frames = ["one.png", "two.png", "three.png", "four.png"].map(function(x) {
+	    var frame = new Image();
+	    frame.src = "assets/img/" + x;
+      return frame;
+	  });
   }
 
   Character.prototype.draw = function() {
