@@ -28,7 +28,7 @@
 	  this.livesDiv = "";
 	  this.scoreDiv = "";
 
-	  this.keyboard = new Keyboard(document.getElementById("keyboard"));
+	  this.keyboard = new Keyboard(document, document.getElementById("keyboard"));
 	  this.createCanvas();
 	  this.initiateTimer();
 	  this.initiateTallies();
