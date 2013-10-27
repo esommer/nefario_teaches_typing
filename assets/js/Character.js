@@ -3,12 +3,10 @@
 	  this.width =  30;
 	  this.height = 60;
 	  this.defaultSpeedX = 1;
-	  this.defaultSpeedY = 0;
 	  this.ctx = ctx;
 	  this.x = 0;
 	  this.y = gameHeight - this.height;
 	  this.speedX = this.defaultSpeedX;
-	  this.speedY = this.defaultSpeedY;
 	  this.state = "normal";
 	  this.cyclesPerFrame = 4;
 	  this.moveCycles = 0;
