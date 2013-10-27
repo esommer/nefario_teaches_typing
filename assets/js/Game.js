@@ -1,6 +1,6 @@
 ;(function(exports) {
   function Game (document, canvasId, width, height) {
-	  this.ctx = setupCanvas(canvasId, width, height);
+	  this.ctx = drawing.setupCanvas(canvasId, width, height);
 	  this.width = width;
 	  this.height = height;
 	  this.score = 0;
@@ -27,13 +27,6 @@
     78:"n", 79:"o", 80:"p", 81:"q", 82:"r", 83:"s", 84:"t", 85:"u", 86:"v",
     87:"w", 88:"x", 89:"y", 90:"z", 186:";"
   };
-
-  var setupCanvas = function(canvasId, width, height) {
-	  var canvas = document.getElementById(canvasId);
-	  canvas.width = width;
-	  canvas.height = height;
-	  return canvas.getContext("2d");
-  }
 
   Game.prototype.initiateTallies = function () {
 	  // build score div
@@ -157,6 +150,13 @@
   }
 
   var drawing = {
+    setupCanvas: function(canvasId, width, height) {
+	    var canvas = document.getElementById(canvasId);
+	    canvas.width = width;
+	    canvas.height = height;
+	    return canvas.getContext("2d");
+    },
+
     clearCanvas: function(ctx, gameWidth, gameHeight) {
 	    ctx.fillStyle = "#fff";
 	    ctx.fillRect(0, 0, gameWidth, gameHeight);
