@@ -66,11 +66,10 @@
 	  }
 	  else {
 		  this.countKeyPress ++;
-		  var output = '';
-		  if (keyObj.keyCode && Game.keys[keyObj.keyCode]) {
-			  output = Game.keys[keyObj.keyCode];
-		  }
-		  if (this.blocks.length > 0 && output == this.blocks[0].letter) {
+		  if (keyObj.keyCode &&
+          Game.keys[keyObj.keyCode] &&
+          this.blocks.length > 0 &&
+          Game.keys[keyObj.keyCode] === this.blocks[0].letter) {
 			  this.correctKey();
 		  } else {
 			  this.wrongKey();
