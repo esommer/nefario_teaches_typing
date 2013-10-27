@@ -1,14 +1,16 @@
 ;(function(exports) {
-  // PREPARE APPROPRIATE ANIMATION FRAME LOOPER
-  (function() {
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
-					setTimeout(callback, 1000/60);
-				};
-    window.requestAnimationFrame = requestAnimationFrame;
-  })();
+  var setUpGameTick = function() {
+    window.requestAnimationFrame = window.requestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function(callback) {
+				setTimeout(callback, 1000/60);
+			};
+  };
 
   window.onload = function() {
+    setUpGameTick();
 	  var game = new Game();
 	  var windowLoop = function() {
 		  requestAnimationFrame(windowLoop);
