@@ -38,14 +38,9 @@
 	  this.y = y;
   }
 
-  Character.prototype.move = function(speedX,speedY) {
-	  if (speedX, speedY) {
-		  this.speedX = speedX;
-		  this.speedY = speedY;
-	  }
+  Character.prototype.move = function() {
 	  var x = this.x + this.speedX;
-	  var y = this.y - this.speedY;
-	  this.setPosition(x, y);
+	  this.setPosition(x, this.y);
 	  this.currentFrame = Math.floor((this.moveCycles/this.cyclesPerFrame)%this.frames.length);
 	  this.moveCycles ++;
   }
