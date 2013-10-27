@@ -1,10 +1,11 @@
 ;(function(exports) {
-  function Timer() {
+  function Timer(document) {
 	  this.start = Date.now();
 	  this.elapsed = 0;
 	  this.display = "";
 	  this.referenceTime = this.start;
 	  this.pausedTime = 0;
+    this.setupView(document);
   }
 
   Timer.prototype.update = function() {
@@ -24,9 +25,14 @@
 	  this.display = hours + ":" + mins + ":" + secs;
   }
 
-  Timer.prototype.draw = function(timerHTML) {
-	  timerHTML.innerHTML = this.display;
-  }
+  Timer.prototype.setupView = function(document) {
+	  var timerDiv = document.createElement("div");
+	  timerDiv.setAttribute("id", "timer");
+	  document.body.appendChild(timerDiv);
+    this.draw = function() {
+      timerDiv.innerHTML = this.display;
+    };
+  };
 
   exports.Timer = Timer;
 })(this);

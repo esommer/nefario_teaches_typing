@@ -10,16 +10,14 @@
 	  this.currentLevel = window.levels[1];
 	  this.blocks = [];
 	  this.frameCount = 0;
-	  this.timerDiv = "";
 	  this.state = "running";
 	  this.score = 0;
 	  this.livesDiv = "";
 	  this.scoreDiv = "";
 
 	  this.keyboard = new Keyboard(document, document.getElementById("keyboard"));
-	  this.initiateTimer();
 	  this.initiateTallies();
-	  this.timer = new Timer();
+	  this.timer = new Timer(document);
 	  this.character = new Character(this.ctx, width, height);
   }
 
@@ -35,12 +33,6 @@
 	  canvas.width = width;
 	  canvas.height = height;
 	  return canvas.getContext("2d");
-  }
-
-  Game.prototype.initiateTimer = function() {
-	  this.timerDiv = document.createElement("div");
-	  this.timerDiv.setAttribute("id", "timer");
-	  document.body.appendChild(this.timerDiv);
   }
 
   Game.prototype.initiateTallies = function () {
@@ -159,7 +151,7 @@
 
 
 	  // draw
-	  this.timer.draw(this.timerDiv);
+	  this.timer.draw();
 	  this.drawTallies();
 	  this.character.draw();
 	  for(i = 0; i < this.blocks.length; i++) {
