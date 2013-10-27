@@ -122,9 +122,8 @@
 	  //set level defaults (speeds, starting lives, letter set, etc.)
   }
 
-  Game.prototype.loop = function () {
+  Game.prototype.update = function() {
 	  this.frameCount ++;
-	  drawing.clearCanvas(this.ctx, this.width, this.height);
 
 	  // check
 	  if (this.blocks.length > 0) {
@@ -142,15 +141,21 @@
 			  this.blocks[i].move();
 		  }
 	  }
+  };
 
-
-	  // draw
+  Game.prototype.draw = function() {
+	  drawing.clearCanvas(this.ctx, this.width, this.height);
 	  this.timer.draw();
 	  this.drawTallies();
 	  this.character.draw();
 	  for(i = 0; i < this.blocks.length; i++) {
 		  this.blocks[i].draw();
 	  }
+  };
+
+  Game.prototype.loop = function () {
+    this.update();
+    this.draw();
   }
 
   var drawing = {
