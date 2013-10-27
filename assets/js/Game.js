@@ -11,7 +11,6 @@
 	  this.blocks = [];
 	  this.frameCount = 0;
 	  this.state = "running";
-	  this.score = 0;
 	  this.livesDiv = "";
 	  this.scoreDiv = "";
 
