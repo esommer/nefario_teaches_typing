@@ -14,12 +14,11 @@
 	  this.moveCycles = 0;
 	  this.currentFrame = 0;
 
-	  this.frames = [];
-	  this.buildFrames();
+	  this.frames = buildFrames();
   }
 
-  Character.prototype.buildFrames  = function() {
-    this.frames = ["one.png", "two.png", "three.png", "four.png"].map(function(x) {
+  var buildFrames = function() {
+    return ["one.png", "two.png", "three.png", "four.png"].map(function(x) {
 	    var frame = new Image();
 	    frame.src = "assets/img/" + x;
       return frame;
