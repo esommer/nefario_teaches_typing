@@ -39,14 +39,6 @@
 	  document.body.appendChild(this.livesDiv);
   }
 
-  Game.prototype.makeLetterBlock = function() {
-	  var letterType = Math.floor(Math.random()*2);
-	  var randIndex = Math.floor(Math.random()*this.currentLevel.contents.length);
-	  var letter = this.currentLevel.contents[randIndex];
-	  var block = new LetterBlock(this.ctx, this.width, this.height, letter, letterType);
-	  this.blocks.push(block);
-  }
-
   Game.prototype.keyInput = function(keyObj) {
 	  // check for pause/resume button (escape key)
 	  if (keyObj.keyCode && Game.keys[keyObj.keyCode] == "esc") {
@@ -125,7 +117,7 @@
 		  // update
 		  this.timer.update();
 		  if (this.frameCount % this.currentLevel.blockFrequency == 0)  {
-			  this.makeLetterBlock();
+			  this.blocks.push(new LetterBlock(this.ctx, this.width, this.height, this.currentLevel.contents));
 		  }
 		  this.character.move();
 		  for (i = 0; i < this.blocks.length; i++){
