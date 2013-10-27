@@ -70,7 +70,9 @@
 	  }
   }
 
-
+  // worth formalising states into a proper state machine with
+  // transition fns and allowable transitions.  We can talk through
+  // how to do this.
   Game.prototype.pause = function () {
 	  this.state = "paused";
 	  this.timer.pausedTime = this.timer.elapsed;
