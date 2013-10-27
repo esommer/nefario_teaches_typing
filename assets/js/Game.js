@@ -1,9 +1,8 @@
 ;(function(exports) {
-  function Game () {
-	  this.canvas = null;
-	  this.ctx = null;
-	  this.width = 1000;
-	  this.height = 400;
+  function Game (document, canvasId, width, height) {
+	  this.ctx = setupCanvas(canvasId, width, height);
+	  this.width = width;
+	  this.height = height;
 	  this.score = 0;
 	  this.countKeyPress = 0;
 	  this.countMistake = 0;
@@ -19,11 +18,10 @@
 	  this.scoreDiv = "";
 
 	  this.keyboard = new Keyboard(document, document.getElementById("keyboard"));
-	  this.createCanvas();
 	  this.initiateTimer();
 	  this.initiateTallies();
 	  this.timer = new Timer();
-	  this.character = new Character(this.canvas, this.ctx);
+	  this.character = new Character(this.ctx, width, height);
   }
 
   Game.keys = {
@@ -33,13 +31,12 @@
     87:"w", 88:"x", 89:"y", 90:"z", 186:";"
   };
 
-  Game.prototype.createCanvas = function() {
-	  this.canvas = document.createElement("canvas");
-	  this.canvas.width = this.width;
-	  this.canvas.height = this.height;
-	  this.ctx = this.canvas.getContext("2d");
-
-	  document.body.appendChild(this.canvas);
+  var setupCanvas = function(canvasId, width, height) {
+    console.log(canvasId)
+	  var canvas = document.getElementById(canvasId);
+	  canvas.width = width;
+	  canvas.height = height;
+	  return canvas.getContext("2d");
   }
 
   Game.prototype.initiateTimer = function() {
@@ -63,7 +60,7 @@
 	  var letterType = Math.floor(Math.random()*2);
 	  var randIndex = Math.floor(Math.random()*this.currentLevel.contents.length);
 	  var letter = this.currentLevel.contents[randIndex];
-	  var block = new LetterBlock(this.canvas, letter, letterType);
+	  var block = new LetterBlock(this.ctx, this.width, this.height, letter, letterType);
 	  this.blocks.push(block);
   }
 

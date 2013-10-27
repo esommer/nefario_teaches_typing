@@ -1,15 +1,12 @@
 ;(function(exports) {
-  function LetterBlock (canvas, letter, type) {
+  function LetterBlock (ctx, gameWidth, gameHeight, letter, type) {
 	  this.letter = letter;
 	  this.type = (type == 1)? "low": "high";
 	  this.width = 30;
 	  this.height = 30;
-	  this.canvas = canvas;
-	  this.ctx = canvas.getContext("2d");
-	  this.canvasWidth = this.canvas.width;
-	  this.canvasHeight = this.canvas.height;
-	  this.x = this.canvasWidth;
-	  this.y = this.type == "low"? this.canvasHeight - this.height: this.canvasHeight - this.height - 100;
+	  this.ctx = ctx;
+	  this.x = gameWidth;
+	  this.y = this.type == "low"? gameHeight - this.height: gameHeight - this.height - 100;
 	  this.speedX = -0.7;
 	  this.speedY = 0;
   }

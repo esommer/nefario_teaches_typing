@@ -1,15 +1,12 @@
 ;(function(exports) {
-  function Character (canvas, ctx) {
+  function Character (ctx, gameWidth, gameHeight) {
 	  this.width =  30;
 	  this.height = 60;
 	  this.defaultSpeedX = 1;
 	  this.defaultSpeedY = 0;
-	  this.canvas = canvas;
-	  this.ctx = canvas.getContext("2d");
-	  this.canvasWidth = this.canvas.width;
-	  this.canvasHeight = this.canvas.height;
+	  this.ctx = ctx;
 	  this.x = 0;
-	  this.y = this.canvasHeight - this.height;
+	  this.y = gameHeight - this.height;
 	  this.speedX = this.defaultSpeedX;
 	  this.speedY = this.defaultSpeedY;
 	  this.state = "normal";
