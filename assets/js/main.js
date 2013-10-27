@@ -23,7 +23,7 @@
   };
 
   window.onload = function() {
-	  var game = new Game();
+	  var game = new Game(document, "canvas", 1000, 400);
     setUpGameTick();
     setupInputListener(game);
     startGameLoop(game);
