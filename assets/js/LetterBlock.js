@@ -1,7 +1,7 @@
 ;(function(exports) {
   function LetterBlock (ctx, gameWidth, gameHeight, letters) {
 	  this.letter = letters[Math.floor(Math.random() * letters.length)];
-	  this.type = (Math.floor(Math.random() * 2) == 1)? "low": "high";
+	  this.type = Math.floor(Math.random() * 2) === 1 ? "low": "high";
 	  this.width = 30;
 	  this.height = 30;
 	  this.ctx = ctx;
