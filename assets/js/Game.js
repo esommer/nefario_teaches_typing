@@ -89,6 +89,8 @@
   }
 
   Game.prototype.checkCollisions = function() {
+	  if (this.blocks.length === 0) return;
+
 	  var characterLeft = Math.round(this.character.x + this.character.width);
 	  var firstBlockRight = Math.floor(this.blocks[0].x);
 	  if (characterLeft == firstBlockRight || Math.abs(firstBlockRight - characterLeft) < 2) {
@@ -124,11 +126,7 @@
 
   Game.prototype.update = function() {
 	  this.frameCount ++;
-
-	  // check
-	  if (this.blocks.length > 0) {
-		  this.checkCollisions();
-	  }
+		this.checkCollisions();
 
 	  if (this.state == "running") {
 		  // update
