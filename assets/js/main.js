@@ -9,17 +9,20 @@
 			};
   };
 
+  var startGameLoop = function(game) {
+	  requestAnimationFrame(function windowLoop() {
+		  game.loop();
+		  requestAnimationFrame(windowLoop);
+	  });
+  };
+
   window.onload = function() {
     setUpGameTick();
 	  var game = new Game();
-	  var windowLoop = function() {
-		  requestAnimationFrame(windowLoop);
-		  game.loop();
-	  };
 	  var acceptInput = function(keyObj) {
 		  game.keyInput(keyObj);
 	  }
 	  document.addEventListener("keydown",acceptInput,false);
-	  windowLoop();
+    startGameLoop(game);
   }
 })(this);
