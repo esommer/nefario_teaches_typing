@@ -16,13 +16,16 @@
 	  });
   };
 
-  window.onload = function() {
-    setUpGameTick();
-	  var game = new Game();
-	  var acceptInput = function(keyObj) {
+  var setupInputListener = function(game) {
+	  document.addEventListener("keydown", function(keyObj) {
 		  game.keyInput(keyObj);
-	  }
-	  document.addEventListener("keydown",acceptInput,false);
+	  }, false);
+  };
+
+  window.onload = function() {
+	  var game = new Game();
+    setUpGameTick();
+    setupInputListener(game);
     startGameLoop(game);
   }
 })(this);
