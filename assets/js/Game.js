@@ -54,11 +54,6 @@
 	  this.blocks.push(block);
   }
 
-  Game.prototype.clearCanvas = function() {
-	  this.ctx.fillStyle = "#fff";
-	  this.ctx.fillRect(0, 0, this.width, this.height);
-  }
-
   Game.prototype.keyInput = function(keyObj) {
 	  // check for pause/resume button (escape key)
 	  if (keyObj.keyCode && Game.keys[keyObj.keyCode] == "esc") {
@@ -129,7 +124,7 @@
 
   Game.prototype.loop = function () {
 	  this.frameCount ++;
-	  this.clearCanvas();
+	  drawing.clearCanvas(this.ctx, this.width, this.height);
 
 	  // check
 	  if (this.blocks.length > 0) {
@@ -157,6 +152,13 @@
 		  this.blocks[i].draw();
 	  }
   }
+
+  var drawing = {
+    clearCanvas: function(ctx, gameWidth, gameHeight) {
+	    ctx.fillStyle = "#fff";
+	    ctx.fillRect(0, 0, gameWidth, gameHeight);
+    }
+  };
 
   exports.Game = Game;
 })(this);
