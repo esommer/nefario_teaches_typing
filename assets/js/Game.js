@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 ;(function(exports) {
   function Game (document, canvasId, width, height) {
@@ -12,10 +13,10 @@
 	  this.frameCount = 0;
 	  this.state = "running";
 
-    this.scoreboard = new Scoreboard(document);
+      this.scoreboard = new Scoreboard(document);
 	  this.keyboard = new Keyboard(document, document.getElementById("keyboard"));
 	  this.timer = new Timer(document);
-	  this.character = new Character(this.ctx, width, height);
+	  this.character = new Character(this.ctx, width, height, 1, 0);
   }
 
   Game.keys = {
@@ -95,7 +96,7 @@
 
   Game.prototype.update = function() {
 	  this.frameCount ++;
-		this.checkCollisions();
+	  this.checkCollisions();
 
 	  if (this.state == "running") {
 		  // update

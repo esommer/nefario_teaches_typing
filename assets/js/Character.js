@@ -44,6 +44,7 @@
 	  this.ctx.restore();
   };
 
+
   Character.prototype.setPosition = function(x, y) {
 	  this.x = x;
 	  this.y = y;

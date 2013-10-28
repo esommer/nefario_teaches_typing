@@ -1,4 +1,3 @@
-
 ;(function(exports) {
   function LetterBlock (ctx, gameWidth, gameHeight, letters, initialSpeedX, initialSpeedY) {
 	  this.letter = letters[Math.floor(Math.random() * letters.length)];
