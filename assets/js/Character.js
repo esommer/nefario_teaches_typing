@@ -1,65 +1,60 @@
-function Character (canvas, ctx, initialSpeedX, initialSpeedY) { 
-	this.width =  30;
-	this.height = 60;
-	this.canvas = canvas;
-	this.initialSpeedX = initialSpeedX;
-	this.initialSpeedY = initialSpeedY;
-	this.ctx = canvas.getContext("2d");
-	this.canvasWidth = this.canvas.width;
-	this.canvasHeight = this.canvas.height;
-	this.x = 0;
-	this.y = this.canvasHeight - this.height;
-	this.speedX = initialSpeedX;
-	this.speedY = initialSpeedY;
-	this.state = "normal";
-	this.cyclesPerFrame = 4;
-	this.moveCycles = 0;
-	this.currentFrame = 0;
-	this.lives = 10;
 
-	this.frames = [];
-	this.buildFrames();
-}
+;(function(exports) {
+  function Character (ctx, gameWidth, gameHeight, initialSpeedX, initialSpeedY) {
+	  this.width =  30;
+	  this.height = 60;
+	  this.defaultSpeedX = 1;
+	  this.ctx = ctx;
+	  this.x = 0;
+	  this.y = gameHeight - this.height;
+	  this.cyclesPerFrame = 4;
+	  this.moveCycles = 0;
+	  this.currentFrame = 0;
+	  this.speedX = initialSpeedX;
+	  this.speedY = initialSpeedY;
+	  this.frames = buildFrames();
 
-Character.prototype.buildFrames  = function() {
-	var frameOne = new Image();
-	frameOne.src = "assets/img/one.png";
-	var frameTwo = new Image();
-	frameTwo.src = "assets/img/two.png";
-	var frameThree = new Image();
-	frameThree.src = "assets/img/three.png";
-	var frameFour = new Image();
-	frameFour.src = "assets/img/four.png";
-	this.frames = [frameOne, frameTwo, frameThree, frameFour];
-}
+    var blocked, speedX;
+    this.block = function () {
+	    blocked = true;
+    };
 
-Character.prototype.draw = function() {
-	this.ctx.save();
-	this.ctx.beginPath();
-	this.ctx.fillStyle = "#ccc";
+    this.unBlock = function () {
+      this.speedX = this.defaultSpeedX;
+      blocked = false;
+    };
 
-	this.ctx.fillRect(this.x, this.y, this.width, this.height);
-	this.ctx.drawImage(this.frames[this.currentFrame], this.x-5, this.y);
-	this.ctx.restore();
-};
+    this.unBlock();
+  }
 
-Character.prototype.moveTo = function(x, y) {
-	this.x = x;
-	this.y = y;
-}
+  var buildFrames = function() {
+    return ["one.png", "two.png", "three.png", "four.png"].map(function(x) {
+	    var frame = new Image();
+	    frame.src = "assets/img/" + x;
+      return frame;
+	  });
+  }
 
-Character.prototype.move = function(speedX,speedY) {
-	if (speedX, speedY) {
-		this.speedX = speedX;
-		this.speedY = speedY;
-	}
-	var x = this.x + this.speedX;
-	var y = this.y - this.speedY;
-	this.moveTo(x, y);
-	this.currentFrame = Math.floor((this.moveCycles/this.cyclesPerFrame)%this.frames.length);
-	this.moveCycles ++;
-}
+  Character.prototype.draw = function() {
+	  this.ctx.save();
+	  this.ctx.beginPath();
+	  this.ctx.fillStyle = "#ccc";
+	  this.ctx.fillRect(this.x, this.y, this.width, this.height);
+	  this.ctx.drawImage(this.frames[this.currentFrame], this.x-5, this.y);
+	  this.ctx.restore();
+  };
 
-Character.prototype.unBlock = function () {
-	this.speedX = this.initialSpeedX;
-}
+  Character.prototype.setPosition = function(x, y) {
+	  this.x = x;
+	  this.y = y;
+  }
+
+  Character.prototype.move = function( ) {
+	  var x = this.x + this.speedX;
+	  this.setPosition(x, this.y);
+	  this.currentFrame = Math.floor((this.moveCycles/this.cyclesPerFrame)%this.frames.length);
+	  this.moveCycles ++;
+  }
+
+  exports.Character = Character;
+})(this);

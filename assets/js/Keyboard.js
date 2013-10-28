@@ -1,22 +1,17 @@
-function Keyboard (element) {
-	this.element = element;
-	this.build();
-}
+;(function(exports) {
+  function Keyboard (document, element) {
+    this.display(document, element);
+  }
 
-Keyboard.prototype.build = function () {
-	for (var num in QWERTYDICT) {
-		var keySquare = new Key(QWERTYDICT[num]);
-		this.element.appendChild(keySquare.contents);
-	}
-}
+  Keyboard.prototype.display = function (document, element) {
+	  for (var num in Game.keys) {
+      var letter = Game.keys[num];
+	    var contents = document.createElement("li");
+	    contents.setAttribute("class","letter key_" + letter);
+	    contents.innerHTML = letter;
+		  element.appendChild(contents);
+	  }
+  };
 
-Keyboard.prototype.setExpectedKeys = function () {
-
-}
-
-function Key (letter) {
-	this.letter = letter;
-	this.contents = document.createElement("li");
-	this.contents.setAttribute("class","letter key_"+this.letter);
-	this.contents.innerHTML = this.letter;
-}
+  exports.Keyboard = Keyboard;
+})(this);
